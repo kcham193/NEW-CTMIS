@@ -1,0 +1,73 @@
+{% extends "base_child.html" %}
+{% load static %} 
+{% block breadcrumb %}
+<li class="breadcrumb-item">{{ module_title }}</li>
+<li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+<div class="table-responsive row">
+                    <table class="table table-bordered table-hover" id="datatable">
+                        <thead class="thead-default thead-lg">
+                            <tr>
+                                <th>ID</th>
+                                <th>Contribution</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                
+                                <th class="no-sort"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Outreach</td>
+                                
+                                <td>
+                                    150000/=
+                                </td>
+
+                                <td>
+                                    <span class="badge badge-success badge-pill">completed</span>
+                                </td>
+                                
+                        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                
+                                <td>Musical Instruments</td>
+
+                                <td>
+                                    80000/=
+                                </td>
+
+
+                                <td>
+                                    <span class="badge badge-success badge-pill">completed</span>
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                
+                                <td>Graduation</td>
+
+                                <td>
+                                    10000/=
+                                </td>
+                                
+                                <td>
+                                    <span class="badge badge-primary badge-pill">completed</span>
+                                </td>
+                                
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

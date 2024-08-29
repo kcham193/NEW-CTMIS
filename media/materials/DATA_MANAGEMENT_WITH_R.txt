@@ -1,0 +1,54 @@
+########## DATA MANAGEMENT (CLEANING) #######
+
+
+rm(list = ls())
+setwd("D:\\DJANGO PROJECTS\\Employee")
+getwd()
+
+
+DATA<- read.csv("employee_data2.csv")
+
+DATA[DATA == ""| DATA=="NaN"] <- NA
+
+Duplictes <- duplicated(DATA$First.Name) | duplicated(DATA$First.Name, fromLast=TRUE)
+
+# List rows with missing data
+rows_with_missing <- DATA[rowSums(is.na(DATA)) > 0, ]
+
+
+# Fill missing age values with the median age
+median_age <- median(as.numeric(DATA$Age), na.rm = TRUE)
+DATA$Age <- ifelse(is.na(DATA$Age), as.character(median_age), DATA$Age)
+
+# Drop rows with missing Last Name
+DATA <- DATA[DATA$Last.Name != "", ]
+
+
+ #remove duplicate rows
+DATA <- unique(DATA, incomparables = F, fromLast = T)
+
+# Correct data type inconsistencies and handle non-integer age values
+DATA$Age <- as.integer(gsub("[^0-9]", "", DATA$Age))
+
+# Remove rows with age less than 18 or greater than 65
+DATA <- DATA[DATA$Age >= 18 & DATA$Age <= 65, ]
+
+# Handle inconsistent email formatting
+DATA$Email <- gsub("@", ".com@", DATA$Email)
+DATA$Email <- gsub("\\.com@", "@", DATA$Email)
+DATA$Email <- gsub("@$", ".com", DATA$Email)
+
+# Validate and correct email formats
+DATA <- DATA[grep("@.*\\.com", DATA$Email), ]
+
+
+
+
+
+
+
+# Save the clean dataset as "clean_employee_data" in CSV format 
+write.csv(DATA, "clean_employee_data.csv", row.names = FALSE)
+
+
+

@@ -1,0 +1,27 @@
+<!-- course_detail.html -->
+{% extends "base_child.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">{{ module_title }}</li>
+<li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+
+{% block page_content %}
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">{{ member.first_name }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p><strong>Firstname:</strong> {{ member.last_name }}</p>
+    <p><strong>Course Name:</strong> {{ member.course }}</p>
+    <!-- Add more fields as needed -->
+</div>
+<div class="modal-footer">
+    <a href="{% url 'update_member' member.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'delete_member' member.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}

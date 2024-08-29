@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+    My Profile
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- START PAGE CONTENT-->
+    <div class="page-header">
+        <div class="ibox flex-1">
+            <div class="ibox-body">
+                <div class="flexbox">
+                    <div class="flexbox-b">
+                        <div class="ml-5 mr-5">
+                            <img class="img-circle" src="{% static 'img/users/u8.jpg' %}" alt="image" width="110" />
+                        </div>
+                        <div>
+                            <h4>Casim Chambulilo</h4>
+                            <div class="text-muted font-13 mb-3">
+                                <span class="mr-3"><i class="ti-location-pin mr-2"></i>Dar es Salaam, Tanzania</span>
+                                <span><i class="ti-calendar mr-2"></i>01.03.2024</span>
+                            </div>
+                            <div>
+                                <span class="mr-3">
+                                    <span class="badge badge-primary badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-briefcase"></i></span>Leader</span>
+                                <span>
+                                    <span class="badge badge-pink badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-cup"></i></span>Vip Status</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-tabs tabs-line m-0 pl-5 pr-3">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab">Activity</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page-content fade-in-up">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="ibox">
+                    <div class="ibox-body">
+                        <h5 class="font-strong mb-4">GENERAL INFORMATION</h5>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">First Name:</div>
+                            <div class="col-6">Casim</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Last Name:</div>
+                            <div class="col-6">Chambulilo</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Age:</div>
+                            <div class="col-6">21</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Position:</div>
+                            <div class="col-6">IT Leader</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">City:</div>
+                            <div class="col-6">Dar es Salaam, Tanzania</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Address:</div>
+                            <div class="col-6">Mbezi,Goba</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Phone:</div>
+                            <div class="col-6">+255-613-048-665</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6 text-muted">Email:</div>
+                            <div class="col-6">kassimchambulilo@gmail.com</div>
+                        </div>
+                    </div>
+                </div>
+{% endblock %}

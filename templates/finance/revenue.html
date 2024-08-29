@@ -1,0 +1,40 @@
+{% extends "base_child.html" %}
+{% load static %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">{{ module_title }}</li>
+<li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+<div class="table-responsive row">
+    <table class="table table-bordered table-hover" id="datatable">
+        <thead class="thead-default thead-lg">
+            <tr>
+                <th>ID</th>
+                <th>Name of Revenue</th>
+                <th>Amount</th>
+                <th>Date</th>
+                
+                
+                <th class="no-sort"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Offerings</td>
+                
+                
+                <td>
+                    100000/=
+                </td>
+
+                <td>
+                    2024-03-11
+                </td>
+
+            </tr>
+            
+
+        </tbody>
+    </table>
+</div>
+</div>

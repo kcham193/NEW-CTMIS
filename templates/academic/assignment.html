@@ -1,0 +1,102 @@
+{% extends "base_child.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">{{ module_title }}</li>
+<li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+
+{% block page_content %}
+<div class="ibox">
+    <div class="ibox-body">
+        <div class="table-responsive row">
+            <table class="table table-bordered table-hover" id="dt-assignment">
+                <thead class="thead-default thead-lg">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Module</th>
+                    <th>Course</th>
+                    <th>Semester</th>
+                    <th>Year</th>
+                    <th class="no-sort" style="width:200px"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for material in object_list %}
+                <tr>
+                    <td>{{ material.id }}</td>
+                    <td>{{ material.name }}</td>
+                    <td>{{ material.module }}</td>
+                    <td>{{ material.course }}</td>
+                    <td>{{ material.module.semester }}</td>
+                    <td>{{ material.module.year }}</td>
+                    <td>
+                        <a href="{% url 'view_material' material.id %}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{% url 'update_material' material.id %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_material' material.id %}" class="btn btn-primary btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form action="{% url 'create_material' %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New Notes Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ material_form | crispy }}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+    $(function() {
+        $('#dt-assignment').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#table-buttons'B><'#custom-buttons'>>" +
+                    "<'d-flex'tr>" +
+                    "<'d-flex justify-content-between'ip>",
+            columnDefs: [{
+                targets: 'no-sort',
+                orderable: false
+            }],layout:{
+                topStart:{
+                    buttons: [
+                    {
+                        text: 'My button',
+                        action: function(e, dt, node, config) {
+                            alert('Button activated');
+                        }
+                    }
+                    ]
+                }
+            }
+        });
+        $('#custom-buttons').html('<a href="{% url "create_material" %}" type="button" class="btn btn-primary">Add Assingnments</a>')
+<!--    $('#custom-buttons').html('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Assignments</button>')-->
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% if request.user|has_group:"ADMINS" %}
+
+ {% load static %}
+ {% load crispy_forms_tags %}
+ {% block breadcrumb %}
+ <li class="breadcrumb-item">{{ module_title }}</li>
+ <li class="breadcrumb-item">{{ page_title }}</li>
+ {% endblock %}
+ {% block page_content %}
+ <div class="table-responsive row">
+    <table class="table table-bordered table-hover" id="dt-member">
+        <thead class="thread-default thread-lg">
+            <tr>
+                <th>ID</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Course</th>
+                <th>Year</th>
+                <th class="no-sort" style="width:200px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in member_list %}
+            <tr>
+                <td>{{ member.id }}</td>
+                <td>{{ member.first_name }}</td>
+                <td>{{ member.last_name }}</td>
+                <td>{{ member.course }}</td>
+                <td>{{ member.year_of_study }}</td>
+                <td>
+                    <a href="{% url 'view_member' member.id %}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{% url 'update_member' member.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_member' member.id %}" class="btn btn-primary btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ </div>
+
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="{% url 'create_member' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Member Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ material_form|crispy }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+ </div>
+
+ {% endblock %}
+
+ {% block page_scripts %}
+ <script>
+    $(function () {
+        $('#dt-member').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#table-buttons'B><'#custom-buttons'>>" +
+                "<'d-flex'tr>" +
+                "<'d-flex justify-content-between'ip>",
+            columnDefs: [{
+                targets: 'no-sort',
+                orderable: false
+            }],
+        });
+        $('#custom-buttons').html('<a href="{% url "create_member" %}" type="button" class="btn btn-primary">Add Member</a>');
+    });
+ </script>
+  {% endblock %}
+{% endif %}

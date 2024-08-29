@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Home{% endblock %}
+{% block navbar_class %}fixed-navbar{% endblock %}
+{% block content %}
+    <style>
+        .page-heading .page-title {
+            font-size: 18px;
+            margin: 10px 0 10px 0;
+        }
+    </style>
+    <div class="page-wrapper">
+        {% include 'partials/header.html' %}
+        {% include 'partials/side_menu.html' %}
+        <div class="content-wrapper">
+            <div class="page-heading">
+                <h5 class="page-title">{{ page_title }}</h5>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'dashboard' %}"><i class="la la-home font-20"></i></a>
+                    </li>
+                    {% block breadcrumb %}{% endblock %}
+                </ol>
+            </div>
+            <!-- START PAGE CONTENT-->
+            <div class="page-content fade-in-up">
+                <div class="ibox">
+                    <div class="ibox-body">
+                        {% block page_content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE CONTENT-->
+            <footer class="page-footer">
+                <div class="font-13">2024 © <b>Casfeta Takwimu</b> - Save your time, choose the best</div>
+                <div>
+                    <a class="px-3 pl-4"
+                       href="http://themeforest.net/item/adminca-responsive-bootstrap-4-3-angular-4-admin-dashboard-template/20912589"
+                       target="_blank">Purchase</a>
+                    <a class="px-3" href="http://admincast.com/adminca/documentation.html" target="_blank">Docs</a>
+                </div>
+                <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
+            </footer>
+        </div>
+    </div>
+    <!-- BEGIN PAGA BACKDROPS-->
+    <div class="sidenav-backdrop backdrop"></div>
+    <div class="preloader-backdrop">
+        <div class="page-preloader">Loading</div>
+    </div>
+    <!-- END PAGA BACKDROPS-->
+{% endblock %}
+{% block page_scripts %}
+    <script src="{% static 'js/main.js' %}"></script>
+
+{% endblock %}

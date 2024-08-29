@@ -1,0 +1,57 @@
+{% extends "base_child.html" %}
+{% load static %}
+{% block breadcrumb %}
+<li class="breadcrumb-item">{{ module_title }}</li>
+<li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+{% block page_content %}
+<div class="ibox">
+<div class="ibox-body">
+<div class="flexbox mb-4">
+<div class="flexbox">
+<div class="table-responsive row">
+    <table class="table table-bordered table-hover" id="dt-lecturenotes">
+        <thead class="thead-default thead-lg">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Module</th>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Year</th>
+                <th class="no-sort" style="width:200px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in material_list %}
+            <tr>
+                <td>{{material.id}}</td>
+                <td>{{material.name}}</td>
+                <td>{{material.module}}</td>
+                <td>{{material.course}}</td>
+                <td>{{material.module.semester}}</td>
+                <td>{{material.module.year}}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm">View</button>
+                    <button class="btn btn-primary btn-sm">Edit</button>
+                    <button class="btn btn-primary btn-sm">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+<a href="?export=pdf" class="btn btn-primary">Export to PDF</a>
+</div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+{% load static %}
+<!-- START SIDEBAR-->
+<nav class="page-sidebar" id="sidebar">
+    <div id="sidebar-collapse">
+        <ul class="side-menu metismenu">
+            <li class="{{ dashboard }}">
+                <a href="{% url 'dashboard' %}"><i class="sidebar-item-icon ti-home"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </li>
+
+            {% load custom_tags %}
+
+{% if request.user|has_group:"ADMINS" %}
+<li class="{{ academic }}">
+                
+    <a href="javascript:;"><i class="sidebar-item-icon ti-book"></i>
+        <span class="nav-label">Academics</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level">
+        <li>
+            <a class="{{ lecture_notes }}" href="{% url 'lecture_notes' %}">Lecture Notes</a>
+        </li>
+        <li>
+            <a class="{{ assignment }}" href="{% url 'assignment' %}">Assignments</a>
+        </li>
+        <li>
+            <a class="{{ reference_material }}" href="{% url 'reference_materials' %}">Reference Materials</a>
+        </li>
+    </ul>
+</li>  
+<li>
+    <a href="javascript:;"><i class="sidebar-item-icon ti-money"></i>
+        <span class="nav-label">Finance</span><i class="fa fa-angle-left arrow"></i></a>
+    <ul class="nav-2-level">
+        <li>
+            <a class="{{ expenditure }}" href="{% url 'expenditure' %}">Expenditures</a>
+        </li>
+        <li>
+            <a class="{{ revenue }}" href="{% url 'revenue' %}">Revenue</a>
+        </li>
+        <li>
+            <a class="{{ receipt }}" href="{% url 'receipt' %}">Receipt</a>
+        </li>
+
+    </ul>    
+</li>
+
+{% endif %}
+
+          
+            <li>
+                <a href="javascript:;"><i class="sidebar-item-icon ti-home"></i>
+                    <span class="nav-label">Administration</span><i class="fa fa-angle-left arrow"></i></a>
+                <ul class="nav-2-level">
+                    <li>
+                        <a class="" href="{% url 'course' %}">Courses</a>
+                    </li>
+                    
+                    {% load custom_tags %}
+
+                    {% if request.user|has_group:"ADMINS" %}
+                    <li>
+                        <a href="{% url 'material' %}">Materials</a>
+                    </li>
+                    
+                    {% endif %}
+                    
+                    
+                    <li>
+                    <li>
+                        <a href="{% url 'member' %}">Members</a>
+                    </li>    
+                </ul>      
+            </li> 
+        </ul>
+    </div>
+</nav>
+<!-- END SIDEBAR-->
+
+
+
+
+
+
