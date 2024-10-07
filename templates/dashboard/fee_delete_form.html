@@ -1,0 +1,38 @@
+{% extends "base_child.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item">{{ module_title }}</li>
+    <li class="breadcrumb-item">{{ page_title }}</li>
+{% endblock %}
+{% block page_content %}
+    <form action="{% url 'delete_fee' feestructure.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete Fee</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete this material?</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>FEE TYPE</th>
+                        <th>AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ feestructure.fee_type }}</td>
+                        <td>{{ feestructure.amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </div>
+    </form>
+{% endblock %}

@@ -5,7 +5,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from database.models import Member, Course
 from administration.forms import MemberCreateForm, CourseCreateForm
 from django.core.exceptions import PermissionDenied
- 
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from database.models import Member
+from .forms import MemberCreateForm
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login
+from django.shortcuts import render, get_object_or_404
+
+
+
+from django.contrib.auth.decorators import login_required
+
+
+# @login_required
+# def member_profile(request):
+#     # Fetch the Member object for the logged-in user
+#     member = Member.objects.filter(user=request.user).first()
+    
+#     context = {
+#         'member': member,
+#     }
+    
+#     return render(request, 'administration/member.html', context)
+
+
 class CourseView(LoginRequiredMixin, ListView):
     template_name = 'administration/course.html'
     model = Course
@@ -81,6 +108,29 @@ class MemberCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = MemberCreateForm
     success_url = reverse_lazy('member')
     success_message = 'Member created successfully'
+    
+    def form_valid(self, form):
+        # First, create the user
+        user = User.objects.create_user(
+            username=form.cleaned_data['first_name'],  # Assuming you're using email as username
+            password=form.cleaned_data['password']  # Password from the form
+        )
+        
+        # Now, save the member form but don't commit yet
+        member = form.save(commit=False)
+        
+        # Assign the created user to the member
+        member.user = user
+        
+        # Now, save the member instance
+        member.save()
+
+        # Log in the new user
+        # login(self.request, user)
+        
+        return super().form_valid(form)
+
+
 
 
 class MemberUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -89,6 +139,22 @@ class MemberUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('member')
     model = Member
     success_message = 'Member updated successfully'
+
+    def form_valid(self, form):
+        # Update member information
+        member = form.save(commit=False)
+
+        # If the member is linked to a user, update the user
+        if member.user:
+            user = member.user
+            user.username = form.cleaned_data['first_name']  # Update username
+            if form.cleaned_data['password']:  # If a new password is provided
+                user.password = make_password(form.cleaned_data['password'])
+            user.save()
+
+        member.save()
+
+        return super().form_valid(form)
 
 
 class MemberDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):

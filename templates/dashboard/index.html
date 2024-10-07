@@ -1,4 +1,5 @@
 {% extends "base_child.html" %}
+
 {% load static %}
 {% block breadcrumb %}
 <li class="breadcrumb-item">{{ module_title }}</li>
@@ -6,6 +7,221 @@
 {% endblock %}
 
 {% block page_title%}Dashboard{% endblock %}
-{% block page_content%}
+{% block page_content %}
+<div class="flexbox-b">
+    <div class="ml-5 mr-5">
+        <img class="img-circle" src="{% static 'img/user.png' %}" alt="image" width="110">
+    </div>
+    <div>
+        <h4>
+            <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
+                <span>{{ request.user.username }}</span>
+            </a>
+        </h4>
+        <div>
+            <span class="mr-3">
+                <span class="badge badge-primary badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-briefcase"></i></span>Member</span>
+            <span>
+                <span class="badge badge-pink badge-circle mr-2 font-14" style="height:30px;width:30px;"><i class="ti-cup"></i></span>Active</span>
+        </div>
+    </div>
+</div>
+
+<div class="page-content fade-in-up">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="ibox">
+                <div class="ibox-body">
+                    <h5 class="font-strong mb-4">Hello! {{ request.user.username }}</h5>
+                    <p>Welcome to CTMIS, The Information system made by Casfeta Takwimu Fellowship. GOD BLESS YOU</P>
+                    {% comment %} {% for activity in activities %} {% endcomment %}
+                    <div class="row mb-2">
+                        <div class="col-12"></div>
+                        <div class="col-12"></div>
+                    </div>
+                    {% comment %} {% empty %} {% endcomment %}
+                    {% comment %} <p>No activities available for this year.</p> {% endcomment %}
+                    {% comment %} {% endfor %} {% endcomment %}
+                </div>
+            </div>
+
+            <div class="ibox">
+                
+            </div>
+
+            <div class="ibox">
+                <div class="ibox-body">
+                    <h5 class="font-strong mb-4">YEARLY CONTRIBUTION STRUCTURE</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-head-purple  " id="dt-feestructure">
+                            <thead>
+                                <tr>
+                                    <th>CONTRIBUTION</th>
+                                    <th>AMOUNT</th>
+                                    {% load custom_tags %}
+                                    {% if request.user|has_group:"ADMINS" %}
+                                    <th>ACTION</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feestructure in fee_list %}
+                                <tr>
+                                    <td>{{ feestructure.fee_type }}</td>
+                                    <td>{{ feestructure.amount }}</td>
+                                    {% load custom_tags %}
+                                    {% if request.user|has_group:"ADMINS" %}
+                                    <td>
+                                        <a href="{% url 'delete_fee' feestructure.id %}" class="btn btn-primary btn-sm">Delete</a>
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-head-purple table-border-purple mb-5">
+                            <thead>
+                                
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-head-success table-border-success mb-4">
+                            <thead>
+                               
+                            </thead>
+                            <tbody>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+           
+                <div class="ibox-body">        
+                
+            </div>
+
+            <div class="ibox">
+                <div class="ibox-body">
+                    <h5 class="font-strong mb-4">PAYMENTS PROGRESS</h5>
+                    <div class="flexbox-b mb-4">
+                        <span class="btn-icon-only btn-pink font-20 mr-3">CT</span>
+                        <div class="flex-1">
+                            <div class="font-strong font-16">CASFETA TAKWIMU</div>
+                            <div class="text-muted">My progress</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 flexbox-b"><i class="la la-dollar font-26 text-light mr-3"></i>
+                            <div class="flex-1">
+                                Paid: {{ total_paid }}Tsh out of  {{ total_payable }}Tsh
+                                <div class="progress mt-1">
+                                    <div class="progress-bar" role="progressbar" style="width:{{percentage_paid}}%; height:5px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 flexbox-b">
+                            <div class="flex-1">
+                                <div><span class="text-light mr-3"><a href="{% url 'member_contributions' %}">Click here to see your payments</a></span></div>
+                                <div class="progress mt-1">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox">
+                <div class="ibox-body">
+                    <h5 class="font-strong mb-4">YEARLY ACTIVITIES</h5>
+                    <ul class="timeline">
+                        <li class="timeline-item">
+                            <span class="timeline-point"></span>Outreach Missions<small class="float-right text-muted ml-2 nowrap">Every August</small></li>
+                        <li class="timeline-item">
+                            <span class="timeline-point bg-warning"></span>
+                            <span>Church Visitations
+                            </span><small class="float-right text-muted">Monthly</small></li>
+                        <li class="timeline-item">
+                            <span class="timeline-point bg-purple"></span>
+                            <span class="flexbox">Seminars and Prayers</span><small class="float-right text-muted ml-2 nowrap">Weekly</small></li>
+                        <li class="timeline-item">
+                            <span class="timeline-point"></span>Overnight Events<small class="float-right text-muted ml-2 nowrap">Yearly</small></li>
+                        <li class="timeline-item">
+                            <span class="timeline-point bg-warning"></span>Graduation Ceremony<small class="float-right text-muted ml-2 nowrap">Yearly</small></li>
+                            </ul>
+                        <!-- Add timeline items as before -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block page_scripts %}
+<script>
+    $(function () {
+        $('#dt-feestructure').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,  // Ensures responsive behavior
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#custom-buttons'>>" +
+                "<'d-flex'tr>" ,
+            columnDefs: [
+                {
+                    targets: 'no-sort',
+                    orderable: false  // Disable sorting on specific columns
+                }
+            ]
+        });
+        
+        {% load custom_tags %}
+        {% if request.user|has_group:"ADMINS" %}
+        // Custom button for adding a fee
+        $('#custom-buttons').html('<a href="{% url "create_fee" %}" type="button" class="btn btn-primary">Add fee</a>');
+        {% endif %}
+    });
+
+    
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        window.onunload = function() {
+            window.localStorage.setItem("unloaded", new Date().getTime());
+        };
+        window.onload = function() {
+            var lastUnloadTime = localStorage.getItem("unloaded");
+            if (lastUnloadTime && (new Date().getTime() - lastUnloadTime) < 3000) {
+                window.location.reload();
+            }
+        };
+    
+    
+</script>
+{% endblock %}
+
+{% comment %} <p>Context variable: {{ feestructure }}</p> {% endcomment %}
+{% if not request.user.is_authenticated %}
+<script>
+    // Redirect to login page if the session is not active
+    window.location.href = "{% url 'login' %}";
+</script>
+{% endif %}
+
 
 {% endblock %}

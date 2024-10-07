@@ -1,0 +1,51 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% comment %} {% if request.user|has_group:"ADMINS" %} {% endcomment %}
+
+ {% load static %}
+ {% load crispy_forms_tags %}
+ {% block page_content %}
+ <h2>Your Contributions</h2>
+{% if contributions %}
+<div class="table-responsive">
+<table class="table table-striped table-head-purple" id="contributionsTable" >
+    <thead>
+        <tr>
+            <th>Payment Type</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contribution in contributions %}
+        <tr>
+            <td>{{ contribution.name }}</td>
+            <td>{{ contribution.description }}</td>
+            <td>{{ contribution.amount }}</td>
+            <td>{{ contribution.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>No contributions yet!</p>
+{% endif %}
+</div>
+
+
+{% block page_scripts %}
+<script>
+    $(function() {
+        $('#contributionsTable').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#table-buttons'B>>" +
+                "<'d-flex'tr>"  
+        });  // This initializes the data table
+    });
+</script>
+{% endblock %}
+{% endblock %}

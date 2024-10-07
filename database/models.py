@@ -1,7 +1,8 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here. 
 class Member(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100)
@@ -20,10 +21,9 @@ class Member(models.Model):
     image = models.ImageField(upload_to='member_images/', blank=True, null=True)
     sex = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
-    
+
     def __str__(self):
         return f'{self.first_name} {self.middle_name}, {self.last_name}'
-
 
      
      
@@ -68,16 +68,12 @@ class MaterialCategory(models.Model):
     def __str__(self):
         return f'{self.name}'
     
-class Contribution(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    
-    def __str__(self):
-        return f'{self.name}: {self.description}'
+
+
     
 class Receipt(models.Model):
     contribution = models.ForeignKey('Contribution', on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveIntegerField(null=True, blank=True)
     description = models.TextField()
     
     def __str__(self):
@@ -86,11 +82,40 @@ class Receipt(models.Model):
 class Voucher(models.Model):
     date = models.DateField()  
     creditor_name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveIntegerField(null=True, blank=True)
     description = models.TextField()
     
     def __str__(self):
         return f'{self.date}: {self.creditor_name}:{self.amount}: {self.description}'
     
+class FeeStructure(models.Model):
+    fee_type = models.CharField(max_length=100)
+    amount = models.PositiveIntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.fee_type}  {self.amount}'
+
+class FeeSummary(models.Model):
+    fee_type = models.CharField(max_length=100)
+    amount_paid = models.PositiveIntegerField(null=True, blank=True)
+    total_amount = models.PositiveIntegerField(null=True, blank=True)
+    debit = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.fee_type} {self.amount_paid} {self.total_amount} {self.debt}'
     
+
+class Contribution(models.Model):
+    PAYMENT_STATUS_CHOICES = [
+        ('full', 'Full-paid'),
+        ('half', 'Half-paid'),
+    ]
+    
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='contributions')
+    name = models.ForeignKey(FeeStructure, on_delete=models.CASCADE, related_name='type')
+    description = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='half')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Assuming contributions have an amount
+    date = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f'{self.name}: {self.description} - {self.amount} - {self.date}'    

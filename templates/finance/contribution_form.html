@@ -1,0 +1,19 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% comment %} {% if request.user|has_group:"ADMINS" %} {% endcomment %}
+
+ {% load static %}
+ {% load crispy_forms_tags %}
+ {% block breadcrumb %}
+ <li class="breadcrumb-item">{{ module_title }}</li>
+ <li class="breadcrumb-item">{{ page_title }}</li>
+ {% endblock %}
+ {% block page_content %}
+ <h2>Add Contribution</h2>
+ <form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+ </form>
+ {% endblock %}

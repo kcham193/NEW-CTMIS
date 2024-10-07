@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import CourseView, MaterialView, MemberView, MemberCreateView, MemberUpdateView, MemberDeleteView, MemberDetailView, CourseCreateView, CourseUpdateView, CourseDeleteView, CourseDetailView
-
+# from administration.views import member_profile
 urlpatterns = [
+    # path('member/', member_profile, name='member_profile'),
     path('course/', CourseView.as_view(), name='course'),
     path('material/', MaterialView.as_view(), name='material'),
     path('member/', MemberView.as_view(), name='member'),

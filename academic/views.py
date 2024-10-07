@@ -2,11 +2,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from database.models import Material
+from database.models import Material, Member, FeeStructure, FeeSummary
 from academic.forms import MaterialCreateForm
 
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = 'index.html'
+# Update to your template file
+
+    
+
 
 class LectureNotesView(LoginRequiredMixin, ListView):
     template_name = 'academic/lecture_notes.html'
@@ -103,3 +105,4 @@ class ReferenceMaterialDeleteView(LoginRequiredMixin, SuccessMessageMixin, Delet
     model = Material
     success_url = reverse_lazy('reference_materials')  # Ensure this is pointing to 'reference_materials'
     success_message = 'Material deleted successfully'
+

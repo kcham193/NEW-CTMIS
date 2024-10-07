@@ -42,7 +42,7 @@
  </div>
 
  <!-- Modal -->
- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form action="{% url 'create_member' %}" method="post">
@@ -64,6 +64,32 @@
         </div>
     </div>
  </div>
+ {% comment %} <div>
+    {% if member %}
+    <h2>Member Profile</h2>
+    
+    <p><strong>First Name:</strong> {{ member.first_name }}</p>
+    <p><strong>Middle Name:</strong> {{ member.middle_name }}</p>
+    <p><strong>Last Name:</strong> {{ member.last_name }}</p>
+    <p><strong>Date of Birth:</strong> {{ member.date_of_birth }}</p>
+    <p><strong>Phone Number:</strong> {{ member.phone_number }}</p>
+    <p><strong>Email:</strong> {{ member.email }}</p>
+    <p><strong>Physical Address:</strong> {{ member.physical_address }}</p>
+    <p><strong>Place of Domicile:</strong> {{ member.place_of_domicile }}</p>
+    <p><strong>Current Place of Residency:</strong> {{ member.current_place_of_residency }}</p>
+    <p><strong>Year of Study:</strong> {{ member.year_of_study }}</p>
+    <p><strong>Course:</strong> {{ member.course }}</p>
+    <p><strong>Ministry:</strong> {{ member.ministry }}</p>
+    <p><strong>Current Place of Worship:</strong> {{ member.current_place_of_worship }}</p>
+    <p><strong>Previous Place of Worship:</strong> {{ member.previous_place_of_worship }}</p>
+    <p><strong>Next of Kin:</strong> {{ member.next_of_kin }}</p>
+    <p><strong>Sex:</strong> {{ member.sex }}</p>
+    <p><strong>Role:</strong> {{ member.role }}</p>
+{% else %}
+    <p>No member profile found for this user.</p>
+{% endif %}
+
+ </div> {% endcomment %}
 
  {% endblock %}
 
@@ -84,6 +110,17 @@
         });
         $('#custom-buttons').html('<a href="{% url "create_member" %}" type="button" class="btn btn-primary">Add Member</a>');
     });
- </script>
+</script>
+
+
   {% endblock %}
 {% endif %}
+
+
+{% comment %} >>> from django.contrib.auth.models import User
+>>> from database.models import Member
+>>> user = User.objects.get(username='princemfinanga@gmail.com')
+>>> member = Member.objects.filter(user=user).first()
+>>> print(member)
+Prince Noah, mfinanga
+>>> {% endcomment %}

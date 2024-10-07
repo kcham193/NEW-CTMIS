@@ -6,6 +6,8 @@ class MaterialCreateForm(forms.ModelForm):
     class Meta:
         model = Material
         fields = '__all__'
+        
+
 
 
 class MaterialDetailForm(forms.ModelForm):

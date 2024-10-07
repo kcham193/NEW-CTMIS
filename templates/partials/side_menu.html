@@ -3,8 +3,8 @@
 <nav class="page-sidebar" id="sidebar">
     <div id="sidebar-collapse">
         <ul class="side-menu metismenu">
-            <li class="{{ dashboard }}">
-                <a href="{% url 'dashboard' %}"><i class="sidebar-item-icon ti-home"></i>
+            <li class="{{ home }}">
+                <a href="{% url 'home' %}"><i class="sidebar-item-icon ti-home"></i>
                     <span class="nav-label">Dashboard</span>
                 </a>
             </li>
@@ -40,6 +40,9 @@
         </li>
         <li>
             <a class="{{ receipt }}" href="{% url 'receipt' %}">Receipt</a>
+        </li>
+        <li>
+            <a class="{{ contribution }}" href="{% url 'contribution-add' %}">Contributions</a>
         </li>
 
     </ul>    
