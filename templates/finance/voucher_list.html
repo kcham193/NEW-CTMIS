@@ -1,0 +1,61 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% if request.user|has_group:"FINANCE" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<h2>Vouchers Issued</h2>
+{% if vouchers %}
+<div class="table-responsive">
+    <table class="table table-striped table-head-purple" id="vouchersTable">
+        <thead>
+            <tr>
+                <th>Voucher Code</th>
+                <th>Approval Date</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Approved By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voucher in vouchers %}
+            <tr>
+                <td>{{ voucher.voucher_code }}</td>
+                <td>{{ voucher.approval_date }}</td>
+                <td>{{ voucher.amount }}</td>
+                <td>{{ voucher.description }}</td>
+                <td>{{ voucher.Approved_by }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right font-weight-bold">Total:</td>
+                <td class="font-weight-bold">{{ total_amount }}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% else %}
+<p>No vouchers issued yet.</p>
+{% endif %}
+
+
+
+{% block page_scripts %}
+<script>
+    $(function() {
+        $('#voucherTable').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#table-buttons'B>>" +
+                "<'d-flex'tr>"
+        });  // This initializes the data table
+    });
+</script>
+{% endblock %}
+{%endblock%}
+{% endif %}

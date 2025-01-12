@@ -65,7 +65,11 @@
             <li class="dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle link" data-toggle="dropdown">
                     <span>{{ request.user.username }}</span>
-                    <img src="{% static 'img/user.png' %}" alt="image" />
+                    {% if member.image %}
+    <img src="{{ member.image.url }}" alt="Member Image" />
+{% else %}
+    <img src="{% static 'img/user.png' %}" alt="Default Image" />
+{% endif %}
                 </a>
                 <div class="dropdown-menu dropdown-arrow dropdown-menu-right admin-dropdown-menu">
                     <div class="dropdown-arrow"></div>

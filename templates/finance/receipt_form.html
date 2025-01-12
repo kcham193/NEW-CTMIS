@@ -1,0 +1,27 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% comment %} {% if request.user|has_group:"FINANCE" %} {% endcomment %}
+
+ {% load static %}
+ {% load crispy_forms_tags %}
+ {% block breadcrumb %}
+ <li class="breadcrumb-item">{{ module_title }}</li>
+ <li class="breadcrumb-item">{{ page_title }}</li>
+ {% endblock %}
+ {% block page_content %}
+ <h2>Create Receipt</h2>
+ <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+ </form>
+<div>
+    <div class="d-flex justify-content-end">
+    <span class="text-light mr-3"><a href="{% url 'receipt_list' %}">Click here to see the revenue</a></span>
+</div>
+
+</div>
+
+
+ {% endblock %}

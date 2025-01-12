@@ -67,19 +67,19 @@ class MaterialCategory(models.Model):
     
     def __str__(self):
         return f'{self.name}'
-    
 
 
-    
-class Receipt(models.Model):
+
+
+class Revenue(models.Model):
     contribution = models.ForeignKey('Contribution', on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(null=True, blank=True)
     description = models.TextField()
-    
+
     def __str__(self):
         return f'{self.contribution}: {self.amount}: {self.description}'
-    
-class Voucher(models.Model):
+
+class Expenditure(models.Model):
     date = models.DateField()  
     creditor_name = models.CharField(max_length=100)
     amount = models.PositiveIntegerField(null=True, blank=True)
@@ -118,4 +118,34 @@ class Contribution(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return f'{self.name}: {self.description} - {self.amount} - {self.date}'    
+        return f'{self.name}: {self.description} - {self.amount} - {self.date}'
+
+class Receipt(models.Model):
+    contribution = models.OneToOneField(Contribution, on_delete=models.CASCADE, related_name='receipt')
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='receipts')
+    receipt_code = models.CharField(max_length=20, unique=False)
+    date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    recorder_name = models.CharField(max_length=100)
+
+    def save(self, *args, **kwargs):
+        # Automatically set amount and description from the related contribution
+        if self.contribution:
+            self.amount = self.contribution.amount
+            self.description = f"{self.contribution.name}: {self.contribution.description}"
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Receipt {self.receipt_code} for Contribution {self.contribution.id}"
+
+class Voucher(models.Model):
+    voucher_code = models.CharField(max_length=20, unique=False)
+    approval_date = models.DateField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    Approved_by = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Voucher {self.voucher_code} - {self.amount}"
+

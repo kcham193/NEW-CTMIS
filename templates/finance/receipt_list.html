@@ -1,0 +1,67 @@
+{% extends "base_child.html" %}
+{% load custom_tags %}
+
+{% if request.user|has_group:"FINANCE" %}
+
+ {% load static %}
+ {% load crispy_forms_tags %}
+ {% block page_content %}
+ <h2>Money received</h2>
+{% if receipts %}
+<div class="table-responsive">
+<table class="table table-striped table-head-purple" id="receiptsTable" >
+    <thead>
+         <tr>
+        <th>Contribution</th>
+        <th>Paid_by</th>
+        <th>Description</th>
+        <th>Receipt_date</th>
+        <th>Recorded_by</th>
+        <th>Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for receipt in receipts %}
+    <tr>
+        <td>{{ receipt.contribution }}</td>
+        <td>{{ receipt.member }}</td>
+        <td>{{ receipt.description }}</td>
+        <td>{{ receipt.date }}</td>
+        <td>{{ receipt.recorder_name }}</td>
+        <td>{{ receipt.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="5" class="text-right font-weight-bold">Total Amount Received:</td>
+        <td class="font-weight-bold">{{ total_amount }}</td>
+    </tr>
+    <tr>
+        <td colspan="5" class="text-right font-weight-bold">Total Amount Available:</td>
+        <td class="font-weight-bold">{{ total_available }}</td>
+    </tr>
+</tfoot>
+
+</table>
+{% else %}
+    <p>No money yet!</p>
+{% endif %}
+</div>
+
+
+{% block page_scripts %}
+<script>
+    $(function() {
+        $('#receiptsTable').DataTable({
+            pageLength: 10,
+            fixedHeader: true,
+            responsive: true,
+            "sDom": "<'d-flex mb-1 justify-content-between'<'#table-search'f><'#table-length'l><'#table-buttons'B>>" +
+                "<'d-flex'tr>"
+        });  // This initializes the data table
+    });
+</script>
+{% endblock %}
+{% endblock %}
+{% endif %}

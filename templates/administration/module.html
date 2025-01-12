@@ -1,0 +1,31 @@
+{% extends "base_child.html" %}
+{% block page_content %}
+<h2>Modules</h2>
+<a href="{% url 'module_add' %}" class="btn btn-primary">Add New Module</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Courses</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for module in modules %}
+        <tr>
+            <td>{{ module.name }}</td>
+            <td>{{ module.semester }}</td>
+            <td>{{ module.course.all|join:", " }}</td>
+            <td>{{ module.year }}</td>
+            <td>
+                <a href="{% url 'module_detail' module.id %}">View</a> |
+                <a href="{% url 'module_edit' module.id %}">Edit</a> |
+                <a href="{% url 'module_delete' module.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

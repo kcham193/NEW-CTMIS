@@ -7,36 +7,40 @@
 {% endblock %}
 {% block page_content %}
 <div class="table-responsive row">
-    <table class="table table-bordered table-hover" id="dt-lecturenotes">
-        <thead class="thead-default thead-lg">
+    <table id="dt-lecturenotes" class="table table-bordered table-hover">
+    <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Module</th>
             <th>Course</th>
             <th>Semester</th>
             <th>Year</th>
-            <th class="no-sort" style="width:200px"></th>
+            <th>Read</th>
+            <th class="no-sort">Actions</th>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         {% for material in material_list %}
         <tr>
-            <td>{{ material.id }}</td>
             <td>{{ material.name }}</td>
             <td>{{ material.module }}</td>
             <td>{{ material.course }}</td>
             <td>{{ material.module.semester }}</td>
             <td>{{ material.module.year }}</td>
+            <td><a href="{{ material.file.url }}" target="_blank">Read</a></td>
             <td>
+
+                {% load custom_tags %}
+                {% if request.user|has_group:"ADMINS" %}
                 <a href="{% url 'view_material' material.id %}" class="btn btn-primary btn-sm">View</a>
                 <a href="{% url 'update_material' material.id %}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="{% url 'delete_material' material.id %}" class="btn btn-primary btn-sm">Delete</a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </tbody>
+</table>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -94,23 +98,18 @@
             columnDefs: [{
                 targets: 'no-sort',
                 orderable: false
-            }], layout: {
-                topStart: {
-                    buttons: [
-                        {
-                            text: 'My button',
-                            action: function (e, dt, node, config) {
-                                alert('Button activated');
-                            }
-                        }
-                    ]
-                }
-            }
+            }]
         });
-        $('#custom-buttons').html('<a href="{% url "create_material" %}" type="button" class="btn btn-primary">Add Notes</a>')
-        {#$('#custom-buttons').html('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Notes</button>')#}
+        {% load custom_tags %}
+        {% if request.user|has_group:"ADMINS" %}
+        // Add the button with correct URL parsing
+        $('#custom-buttons').html('<a href="' + "{% url 'create_material' %}" + '" type="button" class="btn btn-primary">Add Notes</a>');
+        {% endif %}
+        // Uncomment this line if you want to trigger the modal instead
+        //$('#custom-buttons').html('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Notes</button>');
     });
 </script>
+
 
 
 {% endblock %}

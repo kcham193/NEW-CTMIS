@@ -7,6 +7,13 @@ from dashboard.forms import  FeeCreateForm
 from database.models import  FeeStructure, FeeSummary,Contribution
 from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
+from django.shortcuts import render
+from database.models import Member
+
+def profile_view(request):
+    member = Member.objects.get(user=request.user)
+    return render(request, 'profile.html', {'member': member})
+
 
 @method_decorator(never_cache, name='dispatch')
 class HomeView(LoginRequiredMixin, TemplateView):

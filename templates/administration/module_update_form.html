@@ -1,0 +1,11 @@
+{% extends "base_child.html" %}
+{% load crispy_forms_tags %}
+{% block page_content %}
+<h2>{{ page_title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'module' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -2,7 +2,28 @@ from django import forms
 from django.contrib.auth.models import User
 
 
-from database.models import Member, Course
+class SimplePasswordChangeForm(forms.Form):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}),
+        label="New Password"
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm New Password'}),
+        label="Confirm Password"
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("new_password1")
+        password2 = cleaned_data.get("new_password2")
+
+        if password1 != password2:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
+
+
+
+from database.models import Member, Course, Material
 class MemberCreateForm(forms.ModelForm):
     class Meta:
         model = Member
@@ -11,6 +32,11 @@ class MemberCreateForm(forms.ModelForm):
 class CourseCreateForm(forms.ModelForm):
     class Meta:
         model = Course
+        fields = '__all__'
+
+class MaterialCreateForm(forms.ModelForm):
+    class Meta:
+        model = Material
         fields = '__all__'
 
 

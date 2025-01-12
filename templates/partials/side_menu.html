@@ -9,11 +9,8 @@
                 </a>
             </li>
 
-            {% load custom_tags %}
+<li>
 
-{% if request.user|has_group:"ADMINS" %}
-<li class="{{ academic }}">
-                
     <a href="javascript:;"><i class="sidebar-item-icon ti-book"></i>
         <span class="nav-label">Academics</span><i class="fa fa-angle-left arrow"></i></a>
     <ul class="nav-2-level">
@@ -27,16 +24,30 @@
             <a class="{{ reference_material }}" href="{% url 'reference_materials' %}">Reference Materials</a>
         </li>
     </ul>
-</li>  
+</li>
+
 <li>
     <a href="javascript:;"><i class="sidebar-item-icon ti-money"></i>
         <span class="nav-label">Finance</span><i class="fa fa-angle-left arrow"></i></a>
+
+
     <ul class="nav-2-level">
+         {% load custom_tags %}
+
+ {% if request.user|has_group:"MEMBERS" %}
         <li>
-            <a class="{{ expenditure }}" href="{% url 'expenditure' %}">Expenditures</a>
+            <a href="{% url 'member_contributions' %}">contributions</a>
+        </li>
+        {% endif %}
+
+        {% load custom_tags %}
+
+ {% if request.user|has_group:"FINANCE" %}
+        <li>
+            <a class="{{ expenditure }}" href="{% url 'voucher_create' %}">Voucher</a>
         </li>
         <li>
-            <a class="{{ revenue }}" href="{% url 'revenue' %}">Revenue</a>
+            <a class="{{ revenue }}" href="{% url 'create_receipt' %}">Revenue</a>
         </li>
         <li>
             <a class="{{ receipt }}" href="{% url 'receipt' %}">Receipt</a>
@@ -44,13 +55,13 @@
         <li>
             <a class="{{ contribution }}" href="{% url 'contribution-add' %}">Contributions</a>
         </li>
-
-    </ul>    
+ {% endif %}
+    </ul>
 </li>
 
-{% endif %}
+            {% load custom_tags %}
 
-          
+            {% if request.user|has_group:"ADMINS" %}
             <li>
                 <a href="javascript:;"><i class="sidebar-item-icon ti-home"></i>
                     <span class="nav-label">Administration</span><i class="fa fa-angle-left arrow"></i></a>
@@ -58,23 +69,24 @@
                     <li>
                         <a class="" href="{% url 'course' %}">Courses</a>
                     </li>
-                    
-                    {% load custom_tags %}
 
-                    {% if request.user|has_group:"ADMINS" %}
+                    <li>
+                        <a class="" href="{% url 'module' %}">Modules</a>
+                    </li>
+
                     <li>
                         <a href="{% url 'material' %}">Materials</a>
                     </li>
-                    
-                    {% endif %}
-                    
-                    
+
+
+
                     <li>
                     <li>
                         <a href="{% url 'member' %}">Members</a>
-                    </li>    
-                </ul>      
-            </li> 
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
