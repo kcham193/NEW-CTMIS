@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-0er(%=5p@a5@xp*r1@=0*24p)_eo5@60=e$ubjeo2$k_jwa_2x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["ctmis.online","www.ctmis.online",]
 
 
 # Application definition
