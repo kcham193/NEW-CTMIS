@@ -185,3 +185,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Make the session expire after the set duration of inactivity
 SESSION_SAVE_EVERY_REQUEST = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://ctmis.online",
+    "https://www.ctmis.online",  # include this if www is used too
+]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
